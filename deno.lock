@@ -1,0 +1,16 @@
+{
+  "version": "3",
+  "packages": {
+    "specifiers": {
+      "npm:ts-pattern": "npm:ts-pattern@5.1.1",
+      "npm:ts-pattern@5.1.1": "npm:ts-pattern@5.1.1"
+    },
+    "npm": {
+      "ts-pattern@5.1.1": {
+        "integrity": "sha512-i+owkHr5RYdQxj8olUgRrqpiWH9x27PuWVfXwDmJ/n/CoF/SAa7WW1i2oUpPDMQpJ4U+bGRUcZkVq7i1m3zFCg==",
+        "dependencies": {}
+      }
+    }
+  },
+  "remote": {}
+}
