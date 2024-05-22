@@ -1,34 +1,40 @@
 import { isMatching, P } from "npm:ts-pattern";
 
-export type Option<Thing> = Some<Thing> | Nothing;
+/**
+ * Represents an optional value, either `Some` containing a value or `None`.
+ */
+export type Option<Thing> = Some<Thing> | None;
 
-export type Nothing = {
-	readonly isSomething: false;
-	readonly thing: undefined;
-	readonly isNothing: true;
+/**
+ * Represents an optional value that contains a value.
+ */
+export type None = {
+	readonly isSome: false;
+	readonly data: undefined;
+	readonly isNone: true;
 };
 
-export const some = <Thing>(thing: Thing) => {
-	return { isSomething: true, thing, isNothing: false } as Some<Thing>;
+export const some = <Thing>(data: Thing) => {
+	return { isSome: true, data, isNone: false } as Some<Thing>;
 };
 export type Some<Thing> = {
-	readonly isSomething: true;
-	readonly thing: Thing;
-	readonly isNothing: false;
+	readonly isSome: true;
+	readonly data: Thing;
+	readonly isNone: false;
 };
 
 export const SOMETHING = {
-	isSomething: true,
-	isNothing: false,
-	thing: P.select(),
+	isSome: true,
+	isNone: false,
+	data: P.select(),
 } as const;
-export const NOTHING = { isSomething: false, isNothing: true } as Nothing;
+export const NOTHING = { isSome: false, isNone: true } as None;
 
 // export const isSome = <Thing>(option: Option<Thing>): option is Some<Thing> => {
-//   return option.isSomething;
+//   return option.isSome;
 // };
-// export const isNothing = <Thing>(option: Option<Thing>): option is Nothing => {
-//   return option.isNothing;
+// export const isNone = <Thing>(option: Option<Thing>): option is Nothing => {
+//   return option.isNone;
 // };
 
 export function OptionOf<F extends (...args: any[]) => any>(
@@ -60,14 +66,14 @@ export const Option = {
 	OptionOf,
 };
 
-const optionOfThing = <T>(thing: T): Option<T> => {
-	const thingIsNullish = thing === null || thing === undefined;
+const optionOfThing = <T>(data: T): Option<T> => {
+	const thingIsNullish = data === null || data === undefined;
 
-	const thingIsEmptyArray = Array.isArray(thing) && !thing.length;
+	const thingIsEmptyArray = Array.isArray(data) && !data.length;
 
-	const thingIsEmptyString = thing === "";
+	const thingIsEmptyString = data === "";
 
-	const thingIsNothing = isMatching(NOTHING, thing);
+	const thingIsNothing = isMatching(NOTHING, data);
 
 	if (
 		thingIsNullish ||
@@ -78,17 +84,17 @@ const optionOfThing = <T>(thing: T): Option<T> => {
 		return NOTHING;
 	}
 
-	const thingIsOption = isMatching(SOMETHING, thing);
+	const thingIsOption = isMatching(SOMETHING, data);
 
 	if (thingIsOption) {
-		return thing as unknown as Some<T>;
+		return data as unknown as Some<T>;
 	} else {
-		return some(thing);
+		return some(data);
 	}
 	//
 	// I dont consider this kind of thing clean code despite its conciseness:
 	//
-	// const optionOfRes = (thing: any) =>
+	// const optionOfRes = (data: any) =>
 	//     null || undefined ||
 	//     !thing.length ||
 	//     thing.is === "nothing" ||
@@ -122,7 +128,7 @@ const optionOfThing = <T>(thing: T): Option<T> => {
 // // Here we see an example of how we gain access to the value we want;
 // const printName = (maybeName: Option<string>) => {
 //     if (isSome(maybeName)) {
-//         const { thing: name } = maybeName;
+//         const { data: name } = maybeName;
 //         printString(name);
 //     } else {
 //         printString("oopsie poopsie");
