@@ -1,4 +1,4 @@
-import type { Err } from './result';
+import type { Err } from './result.ts';
 
 export type ErrorObject = {
 	[key: string]: (...args: any[]) => Err<{
