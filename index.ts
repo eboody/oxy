@@ -1,4 +1,4 @@
-export * from "npm:ts-pattern";
+export * from "npm:ts-pattern@5.1.1";
 export * from "./error_enum.ts";
 export * from "./result.ts";
 export * from "./option.ts";

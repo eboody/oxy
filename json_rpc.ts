@@ -1,4 +1,4 @@
-import { P } from "npm:ts-pattern";
+import { P } from "npm:ts-pattern@5.1.1";
 
 export type JsonRpcSuccess<Data> = P.infer<typeof JsonRpcSuccessPattern> & {
 	result: Data;

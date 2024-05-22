@@ -1,4 +1,4 @@
-import { P, match } from 'npm:ts-pattern';
+import { P, match } from 'npm:ts-pattern@5.1.1';
 import { JsonRpcSuccessPattern, JsonRpcErrorPattern } from './json_rpc.ts';
 
 export type Result<Thing, Error> = Thing extends Ok<infer R>

@@ -1,4 +1,4 @@
-import { isMatching, P } from "npm:ts-pattern";
+import { isMatching, P } from "npm:ts-pattern@5.1.1";
 
 /**
  * Represents an optional value, either `Some` containing a value or `None`.
