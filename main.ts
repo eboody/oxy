@@ -5,6 +5,6 @@ export * from "./option.ts";
 export * from "./json_rpc.ts";
 
 export function capitalize(s: string): string {
-	let first_letter = s.slice(0, 1).toUpperCase();
-	return s.replace(s.slice(0, 1), first_letter);
+  let first_letter = s.slice(0, 1).toUpperCase();
+  return s.replace(s.slice(0, 1), first_letter);
 }
