@@ -37,7 +37,7 @@ jobs:
 
       - name: Publish to Deno
         if: github.ref == 'refs/heads/main'
-        run: deno publish --provenance
+        run: deno publish
         env:
           DENO_AUTH_TOKEN: ${{ secrets.DENO_AUTH_TOKEN }}
 
