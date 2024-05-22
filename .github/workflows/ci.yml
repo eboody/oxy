@@ -44,9 +44,3 @@ jobs:
         run: deno publish
         env:
           DENO_AUTH_TOKEN: ${{ secrets.DENO_AUTH_TOKEN }}
-
-      - name: Publish to JSR
-        if: github.ref == 'refs/heads/main'
-        run: jsr publish
-        env:
-          JSR_AUTH_TOKEN: ${{ secrets.JSR_AUTH_TOKEN }}
