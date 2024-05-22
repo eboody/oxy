@@ -14,7 +14,7 @@ export type None = {
 	readonly isNone: true;
 };
 
-export const some = <Thing>(data: Thing) => {
+export const some = <Thing>(data: Thing): Some<Thing> => {
 	return { isSome: true, data, isNone: false } as Some<Thing>;
 };
 export type Some<Thing> = {
