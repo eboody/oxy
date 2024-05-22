@@ -1,4 +1,7 @@
 {
+  "name": "@eman/oxy",
+  "version": "0.1.0",
+  "exports": "./index.ts",
   "tasks": {
     "dev": "deno run --watch index.ts"
   }
