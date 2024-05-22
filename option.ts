@@ -23,12 +23,16 @@ export type Some<Thing> = {
 	readonly isNone: false;
 };
 
-export const SOMETHING = {
+export const SOMETHING: {
+	readonly isSome: true;
+	readonly isNone: false;
+	readonly data: any;
+} = {
 	isSome: true,
 	isNone: false,
 	data: P.select(),
 } as const;
-export const NOTHING = { isSome: false, isNone: true } as None;
+export const NOTHING: None = { isSome: false, isNone: true } as None;
 
 // export const isSome = <Thing>(option: Option<Thing>): option is Some<Thing> => {
 //   return option.isSome;

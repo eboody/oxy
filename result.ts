@@ -65,8 +65,17 @@ export type ErrorVariant<R extends Result<unknown, unknown>> = R extends Ok<unkn
 //   return !result.ok;
 // };
 
-export const ERROR = { isOk: false, isError: true, data: P.select() } as const;
-export const OK = { isOk: true, isError: false, data: P.select() } as const;
+export const ERROR: {
+	readonly isOk: false;
+	readonly isError: true;
+	readonly data: any;
+}
+	= { isOk: false, isError: true, data: P.select() } as const;
+export const OK: {
+	readonly isOk: true;
+	readonly isError: false;
+	readonly data: any;
+} = { isOk: true, isError: false, data: P.select() } as const;
 
 const AxiosErrorPattern = {
 	response: {

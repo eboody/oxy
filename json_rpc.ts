@@ -19,13 +19,29 @@ function isJsonRpcSuccess<T>(obj: { jsonrpc?: unknown, result?: unknown, id?: un
 	return obj["jsonrpc"] && obj["id"] && obj["result"] ? true : false;
 }
 
-export const JsonRpcSuccessPattern = {
+export const JsonRpcSuccessPattern: {
+	readonly id: any;
+	readonly jsonrpc: any;
+	readonly result: {
+		readonly data: any;
+	};
+} = {
 	id: P.union(P.string, P.number, P.nullish),
 	jsonrpc: P.optional("2.0"),
 	result: { data: P.any }
 } as const;
 
-export const JsonRpcErrorPattern = {
+export const JsonRpcErrorPattern: {
+	readonly id: any;
+	readonly jsonrpc: any;
+	readonly error: {
+		readonly message: any;
+		readonly data: {
+			readonly req_uuid: any;
+			readonly detail: any;
+		};
+	};
+} = {
 	id: P.union(P.string, P.number, P.nullish),
 	jsonrpc: P.optional("2.0"),
 	error: {
