@@ -25,16 +25,16 @@ jobs:
         with:
           deno-version: v1.x
 
-      # - name: Cache Deno modules
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: ~/.cache/deno
-      #     key: ${{ runner.os }}-deno-${{ hashFiles('**/import_map.json') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-deno-
+      - name: Cache Deno modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/deno
+          key: ${{ runner.os }}-deno-${{ hashFiles('**/import_map.json') }}
+          restore-keys: |
+            ${{ runner.os }}-deno-
 
       - name: Install dependencies
-        run: deno cache index.ts
+        run: deno cache main.ts
 
       - name: Run tests
         run: deno test
