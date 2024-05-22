@@ -4,5 +4,7 @@
   "exports": "./index.ts",
   "tasks": {
     "dev": "deno run --watch index.ts"
-  }
+  },
+ "description": "A TypeScript library providing Rust-like data structures, such as Result and Option, for improved error handling and value management.",
+  "compatible": ["deno", "node"]
 }
