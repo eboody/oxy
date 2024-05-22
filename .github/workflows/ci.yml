@@ -13,24 +13,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Deno
-      uses: denoland/setup-deno@v1
-      with:
-        deno-version: v1.x
-    - name: Cache Deno modules
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/deno
-        key: ${{ runner.os }}-deno-${{ hashFiles('**/import_map.json') }}
-        restore-keys: |
-          ${{ runner.os }}-deno-
-    - name: Install dependencies
-      run: deno cache index.ts
-    - name: Run tests
-      run: deno test
-    - name: Publish to Deno
-      if: github.ref == 'refs/heads/main'
-      run: deno publish
-      env:
-        DENO_AUTH_TOKEN: ${{ secrets.DENO_AUTH_TOKEN }}
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Set up Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Cache Deno modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/deno
+          key: ${{ runner.os }}-deno-${{ hashFiles('**/import_map.json') }}
+          restore-keys: |
+            ${{ runner.os }}-deno-
+
+      - name: Install dependencies
+        run: deno cache index.ts
+
+      - name: Run tests
+        run: deno test
+
+      - name: Publish to Deno
+        if: github.ref == 'refs/heads/main'
+        run: deno publish --provenance
+        env:
+          DENO_AUTH_TOKEN: ${{ secrets.DENO_AUTH_TOKEN }}
+
+      - name: Publish to JSR
+        if: github.ref == 'refs/heads/main'
+        run: jsr publish
+        env:
+          JSR_AUTH_TOKEN: ${{ secrets.JSR_AUTH_TOKEN }}
