@@ -2,11 +2,22 @@ import { isMatching, P } from "npm:ts-pattern@5.1.1";
 
 /**
  * Represents an optional value, either `Some` containing a value or `None`.
+ * @template Thing - The type of the value.
  */
 export type Option<Thing> = Some<Thing> | None;
 
 /**
  * Represents an optional value that contains a value.
+ * @template Thing - The type of the value.
+ */
+export type Some<Thing> = {
+	readonly isSome: true;
+	readonly data: Thing;
+	readonly isNone: false;
+};
+
+/**
+ * Represents an optional value that does not contain a value.
  */
 export type None = {
 	readonly isSome: false;
@@ -14,15 +25,19 @@ export type None = {
 	readonly isNone: true;
 };
 
+/**
+ * Creates an instance of Some.
+ * @template Thing - The type of the value.
+ * @param {Thing} data - The value to be contained.
+ * @returns {Some<Thing>} An instance of Some.
+ */
 export const some = <Thing>(data: Thing): Some<Thing> => {
 	return { isSome: true, data, isNone: false } as Some<Thing>;
 };
-export type Some<Thing> = {
-	readonly isSome: true;
-	readonly data: Thing;
-	readonly isNone: false;
-};
 
+/**
+ * Represents a constant `Some` with any type of data.
+ */
 export const SOMETHING: {
 	readonly isSome: true;
 	readonly isNone: false;
@@ -32,15 +47,18 @@ export const SOMETHING: {
 	isNone: false,
 	data: P.select(),
 } as const;
+
+/**
+ * Represents a constant `None`.
+ */
 export const NOTHING: None = { isSome: false, isNone: true } as None;
 
-// export const isSome = <Thing>(option: Option<Thing>): option is Some<Thing> => {
-//   return option.isSome;
-// };
-// export const isNone = <Thing>(option: Option<Thing>): option is Nothing => {
-//   return option.isNone;
-// };
-
+/**
+ * Wraps a function call in a promise that resolves to an Option.
+ * @template F - The type of the function.
+ * @param {F} someFunction - The function to wrap.
+ * @returns {Promise<Option<NonNullable<Awaited<ReturnType<F>>>>>} A promise resolving to an Option.
+ */
 export function OptionOf<F extends (...args: any[]) => any>(
 	someFunction: F
 ): Promise<Option<NonNullable<Awaited<ReturnType<F>>>>> {
@@ -60,9 +78,17 @@ export function OptionOf<F extends (...args: any[]) => any>(
 	});
 }
 
+/**
+ * Represents the Some variant type.
+ * @template R - The type of the option.
+ */
 export type SomeVariant<R extends Option<unknown>> = R extends Some<unknown>
 	? R
 	: never;
+
+/**
+ * Utility object for creating and managing Option types.
+ */
 export const Option = {
 	some,
 	SOMETHING,
@@ -70,6 +96,12 @@ export const Option = {
 	OptionOf,
 };
 
+/**
+ * Converts a value to an Option.
+ * @template T - The type of the value.
+ * @param {T} data - The value to convert.
+ * @returns {Option<T>} An Option containing the value.
+ */
 const optionOfThing = <T>(data: T): Option<T> => {
 	const thingIsNullish = data === null || data === undefined;
 
@@ -95,18 +127,8 @@ const optionOfThing = <T>(data: T): Option<T> => {
 	} else {
 		return some(data);
 	}
-	//
-	// I dont consider this kind of thing clean code despite its conciseness:
-	//
-	// const optionOfRes = (data: any) =>
-	//     null || undefined ||
-	//     !thing.length ||
-	//     thing.is === "nothing" ||
-	//     (typeof thing === "object" ? JSON.stringify(thing) === "{}" : true)
-	//         ? Nothing
-	//         : some(thing.is ? thing["thing"] : thing);
-	//
 };
+
 
 // This library provides a way to represent values that may or may not exist. It does this by introducing the Option type, which can be either a Some variant, representing a value that is present, or a Nothing variant, representing a value that is not present.
 //
